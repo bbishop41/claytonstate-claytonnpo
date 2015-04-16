@@ -97,8 +97,15 @@ public class ControllerServlet extends HttpServlet {
         //If search is made
         if(urlPattern.equals("/search")) {
             String search = request.getParameter("search");
-            session.setAttribute("search", search);
-            session.setAttribute("query", organizationFacade.findAll());
+            /*session.setAttribute("search", search);
+            session.setAttribute("query", organizationFacade.findAll());*/
+            try{
+                List results = em.createNamedQuery("Organization.findByOrgName").setParameter("orgName", search).getResultList();
+                session.setAttribute("searchResults", results);
+                response.sendRedirect("search.jsp");
+            }catch (Exception e){
+                e.printStackTrace();
+            }
         }
         
         if(urlPattern.equals("/admin")) {

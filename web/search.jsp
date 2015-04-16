@@ -12,16 +12,10 @@
 <% String search = (String) session.getAttribute("search");%>
 <h3>Search Results</h3>
 <table>
-    <c:forEach var="organization" items="${query}">
-        <c:choose>
-            <c:when test="${organization.orgName == search}"> 
-                <tr>
-                    <td><h4>${organization.orgName}</h4></td>
-                    <td><h4>${organization.email}</h4></td>
-                    <td><h4>${organization.pass}</h4></td>
-                </tr>
-            </c:when>
-        </c:choose>
+    <c:forEach var="results" items="${searchResults}">       
+            <td><h4>${results.orgName}</h4></td>
+            <td><h4>${results.email}</h4></td>
+            <td><h4>${results.pass}</h4></td>      
     </c:forEach>
 </table>
                 
