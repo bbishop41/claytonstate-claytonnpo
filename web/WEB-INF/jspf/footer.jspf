@@ -1,0 +1,12 @@
+ </div>
+<div class="footer">
+    <p><a href="index.jsp?page=home">Home</a>
+    <a href="create.jsp?page=create">Sign up</a>
+    <a href="faq.jsp?page=faq">FAQ</a>
+    <a href="contact.jsp?page=contact">Contact</a>
+    <a href="Staff">Staff</a><br/>
+    Copyright &copy; 2015 Dayspring Solutions <br /> Last Updated on 3/28/15</p>
+</div>
+</body>
+</html>
+

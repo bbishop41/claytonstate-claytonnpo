@@ -1,0 +1,132 @@
+<%@page import="entity.Admin"%>
+<%@page import="entity.Organization"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <!-- 
+            Currently grabbing the url page parameter to get the current page and to change
+            to the specific tab needed.  If time permits, I'm going to try to refactor the conditionals
+            in the class assignment into one single method call. 
+    -->
+    <% String currentPage = (String) request.getParameter("page");
+        if (currentPage == null) {
+            currentPage = "home";
+        }
+    %>
+    <head>
+        <title>Home</title>
+    
+        <link rel="stylesheet" type="text/css" href="css/stylesheet.css"/>
+        
+        <script type="text/javascript">
+	  
+          function submitForm() {	  
+                  document.getElementById('logout').submit();		  
+          }
+	  
+        </script>
+        <script type="text/javascript" language="javascript">
+    function enableTextBox()
+    {
+        if (document.getElementById("fb").checked == true)
+            document.getElementById("facebook").disabled = false;
+        else
+            document.getElementById("facebook").disabled = true;
+        
+        if (document.getElementById("tweet").checked == true)
+            document.getElementById("twitter").disabled = false;
+        else
+            document.getElementById("twitter").disabled = true;
+        
+        if (document.getElementById("link").checked == true)
+            document.getElementById("linkedin").disabled = false;
+        else
+            document.getElementById("linkedin").disabled = true;
+        
+        if (document.getElementById("google").checked == true)
+            document.getElementById("googlePlus").disabled = false;
+        else
+            document.getElementById("googlePlus").disabled = true;
+        
+          if (document.getElementById("none").checked == true)
+            document.getElementById("noMedia").disabled = false;
+        else
+            document.getElementById("noMedia").disabled = true;
+    }
+    </script>
+    </head>
+    <body>
+        
+        <!-- HEADER SECTION -->
+        <div id="mainHeader">
+            
+            <img src="assets/logo.png" />
+            
+            <!-- LOGIN FIELD -->
+            <%Organization org = (Organization) session.getAttribute("org");
+            Admin adm = (Admin) session.getAttribute("admin");
+            if (org == null && adm == null){%>
+                <form action="controlpanel" method="post" id="loginForm">
+                    <p>Email:   <input type="text" name="email" id="signin"/> </p>
+                    <p>Password:   <input type="password" name="pass" id="signin" /> </p>
+                    <p><input type="submit" value="Login" />  
+                    <a href="create.jsp?page=create" id="createLink"> Create Account</a></p>
+                </form>
+            <%}else if (adm == null){%>
+                <%String orgEmail = org.getEmail();%>
+                <p id="loginForm">Logged in as: <%=orgEmail%></p></br>
+                <form action="logout" method="post">
+                    <p><input type="submit" value="Logout"/>
+                </form>          
+            <%}else{%>
+                <%String admEmail = adm.getEmail();%>
+                <p id="loginForm">Admin Logged in as: <%=admEmail%></p></br>
+                <form action="logout" method="post">
+                    <p><input type="submit" value="Logout"/>
+                </form> 
+            <%}%>
+            <!-- END LOGIN -->
+            
+        </div>
+        <!-- END HEADER -->
+        
+        <!--TAB SECTION -->
+       
+        <ol id="toc">
+            <li class="<% if (currentPage.equals("home")) out.println("current"); else out.println(""); %>">
+                <a href="index.jsp?page=home"><span>Home</span></a>
+            </li>
+            <li class="<% if (currentPage.equals("event")) out.println("current"); else out.println(""); %>">
+                <a href="event.jsp?page=event"><span>Events</span></a>
+            </li>
+            <li class="<% if (currentPage.equals("faq")) out.println("current"); else out.println(""); %>">
+                <a href="faq.jsp?page=faq"><span>FAQ</span></a>
+            </li>
+            <li class="<% if (currentPage.equals("contact")) out.println("current"); else out.println(""); %>">
+                <a href="contact.jsp?page=contact"><span>Contact</span></a>
+            </li>
+            <%if (adm != null){%>
+            <li class="<% if (currentPage.equals("admin")) out.println("current"); else out.println(""); %>">
+                <a href="admin"><span>Admin</span></a>
+            </li>        
+            <%}%>
+        </ol>
+            
+        
+        <!-- END TABS -->
+        <!--CONTENT SECTION -->
+        <div class="content">
+            <div id="rightColumn">
+                <form action="search" method="get" id="searchDB">
+                    <input type="text" name="search" />
+                    <input type="submit" value="Search"></input>
+                </form>
+            </div>
+
+<!-- END EVENT SECTION -->
+<!-- END CONTENT -->
+        <!-- CONTENT ENDS IN FOOTER -->
