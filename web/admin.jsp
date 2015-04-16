@@ -8,8 +8,6 @@
 <!-- Header in WEB-INF/jspf/header.jspf -->
 
 <!-- CONTENT GOES HERE -->
-
-<h3>Test</h3>
 <p>Admin Control Panel</p>
 
 <div class="leftContainer">
