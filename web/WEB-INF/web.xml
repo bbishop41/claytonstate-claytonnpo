@@ -8,17 +8,18 @@
     <jsp-config>
         <jsp-property-group>
             <description>header and footer settings</description>
-            <url-pattern>/index.jsp</url-pattern>
-            <url-pattern>/faq.jsp</url-pattern>
+            <url-pattern>/viewresults.jsp</url-pattern>
             <url-pattern>/WEB-INF/view/*</url-pattern>
             <url-pattern>/submitsurvey.jsp</url-pattern>
+            <url-pattern>/updatesurvey.jsp</url-pattern>
+            <url-pattern>/event.jsp</url-pattern>
+            <url-pattern>/index.jsp</url-pattern>
+            <url-pattern>/faq.jsp</url-pattern>
             <url-pattern>/survey.jsp</url-pattern>
             <url-pattern>/controlpanel.jsp</url-pattern>
-            <url-pattern>/updatesurvey.jsp</url-pattern>
             <url-pattern>/create.jsp</url-pattern>
-            <url-pattern>/event.jsp</url-pattern>
-            <url-pattern>/search.jsp</url-pattern>
             <url-pattern>/admin.jsp</url-pattern>
+            <url-pattern>/search.jsp</url-pattern>
             <url-pattern>/contact.jsp</url-pattern>
             <include-prelude>/WEB-INF/jspf/header.jspf</include-prelude>
             <include-coda>/WEB-INF/jspf/footer.jspf</include-coda>

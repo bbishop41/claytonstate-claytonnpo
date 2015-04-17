@@ -14,8 +14,7 @@
 <table>
     <c:forEach var="results" items="${searchResults}">       
             <td><h4>${results.orgName}</h4></td>
-            <td><h4>${results.email}</h4></td>
-            <td><h4>${results.pass}</h4></td>      
+            <td><a href="getorgresults?org=${results.orgId}">View Details</a></td>
     </c:forEach>
 </table>
                 

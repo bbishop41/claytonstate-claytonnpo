@@ -47,7 +47,8 @@ import session.SupportticketFacade;
                                                        "/update",
                                                         "/test",
                                                         "/admin",
-                                                        "/updatesurvey"})
+                                                        "/updatesurvey",
+                                                        "/getorgresults"})
 public class ControllerServlet extends HttpServlet {
    @EJB
    private ProcessData trans;
@@ -120,6 +121,12 @@ public class ControllerServlet extends HttpServlet {
             getServletContext().setAttribute("pops", popFacade.findAll());
             session.setAttribute("uorg", org);
             response.sendRedirect("updatesurvey.jsp");
+        }
+        
+        if(urlPattern.equals("/getorgresults")){
+            int orgid = Integer.parseInt(request.getParameter("org"));
+            List area = em.createNamedQuery("Organization.findByOrgName").setParameter("orgName", orgid).getResultList();
+                session.setAttribute("resultArea", area);           
         }
         //String url = "WEB-INF/view" + urlPattern + ".jsp";
         
