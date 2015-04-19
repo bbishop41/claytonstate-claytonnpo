@@ -125,12 +125,29 @@ public class ControllerServlet extends HttpServlet {
         
         if(urlPattern.equals("/getorgresults")){
             int orgId = Integer.parseInt(request.getParameter("org"));
-            /*List area = em.createNamedQuery("Organization.findByOrgName").setParameter("orgName", orgId).getResultList();
-                session.setAttribute("resultArea", area); */
-                
-            List<Area> areaQ = em.createQuery("select distinct a from Area a inner join a.organizationCollection o where o.orgId = :orgId").setParameter("orgId", orgId).getResultList();
+            
+            /*Get Search Org*/
+            List orgQ = em.createNamedQuery("Organization.findByOrgId").setParameter("orgId", orgId).getResultList();
+            session.setAttribute("searchOrg", orgQ);
+
+            /*Get Search Areas*/  
+            List areaQ = em.createQuery("select distinct a from Area a inner join a.organizationCollection o where o.orgId = :orgId").setParameter("orgId", orgId).getResultList();
             session.setAttribute("searchAreas", areaQ);
-            System.out.println(areaQ.get(0).getCity());
+            
+            /*Get Search Populations*/  
+            List popQ = em.createQuery("select distinct p from Population p inner join p.organizationCollection o where o.orgId = :orgId").setParameter("orgId", orgId).getResultList();
+            session.setAttribute("searchPops", popQ);
+            
+            /*Get Search Services*/  
+            List servicesQ = em.createQuery("select distinct s from Services s inner join s.organizationCollection o where o.orgId = :orgId").setParameter("orgId", orgId).getResultList();
+            session.setAttribute("searchServices", servicesQ);
+            
+            /*Get Search Social Media*/  
+            List socialQ = em.createNamedQuery("OrganizationHasSocialmedia.findByOrganizationOrgId").setParameter("organizationOrgId", orgId).getResultList();
+            session.setAttribute("searchSocials", socialQ);
+            
+            response.sendRedirect("viewresults.jsp");
+           
         }
         //String url = "WEB-INF/view" + urlPattern + ".jsp";
         
