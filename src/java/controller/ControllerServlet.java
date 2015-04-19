@@ -124,9 +124,13 @@ public class ControllerServlet extends HttpServlet {
         }
         
         if(urlPattern.equals("/getorgresults")){
-            int orgid = Integer.parseInt(request.getParameter("org"));
-            List area = em.createNamedQuery("Organization.findByOrgName").setParameter("orgName", orgid).getResultList();
-                session.setAttribute("resultArea", area);           
+            int orgId = Integer.parseInt(request.getParameter("org"));
+            /*List area = em.createNamedQuery("Organization.findByOrgName").setParameter("orgName", orgId).getResultList();
+                session.setAttribute("resultArea", area); */
+                
+            List<Area> areaQ = em.createQuery("select distinct a from Area a inner join a.organizationCollection o where o.orgId = :orgId").setParameter("orgId", orgId).getResultList();
+            session.setAttribute("searchAreas", areaQ);
+            System.out.println(areaQ.get(0).getCity());
         }
         //String url = "WEB-INF/view" + urlPattern + ".jsp";
         
