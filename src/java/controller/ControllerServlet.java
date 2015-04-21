@@ -118,7 +118,7 @@ public class ControllerServlet extends HttpServlet {
         if(urlPattern.equals("/updatesurvey")) { 
             int orgId = Integer.parseInt(request.getParameter("org"));
             Organization org = organizationFacade.find(orgId);
-            getServletContext().setAttribute("pops", popFacade.findAll());
+            session.setAttribute("pops", popFacade.findAll());
             session.setAttribute("uorg", org);
                       
             /*Get Search Org*/
