@@ -116,10 +116,31 @@ public class ControllerServlet extends HttpServlet {
         }
         
         if(urlPattern.equals("/updatesurvey")) { 
-            int id = Integer.parseInt(request.getParameter("org"));
-            Organization org = organizationFacade.find(id);
+            int orgId = Integer.parseInt(request.getParameter("org"));
+            Organization org = organizationFacade.find(orgId);
             getServletContext().setAttribute("pops", popFacade.findAll());
             session.setAttribute("uorg", org);
+                      
+            /*Get Search Org*/
+            List orgQ = em.createNamedQuery("Organization.findByOrgId").setParameter("orgId", orgId).getResultList();
+            session.setAttribute("searchOrg", orgQ);
+
+            /*Get Search Areas*/  
+            List areaQ = em.createQuery("select distinct a from Area a inner join a.organizationCollection o where o.orgId = :orgId").setParameter("orgId", orgId).getResultList();
+            session.setAttribute("searchAreas", areaQ);
+            
+            /*Get Search Populations*/  
+            List popQ = em.createQuery("select distinct p from Population p inner join p.organizationCollection o where o.orgId = :orgId").setParameter("orgId", orgId).getResultList();
+            session.setAttribute("searchPops", popQ);
+            
+            /*Get Search Services*/  
+            List servicesQ = em.createQuery("select distinct s from Services s inner join s.organizationCollection o where o.orgId = :orgId").setParameter("orgId", orgId).getResultList();
+            session.setAttribute("searchServices", servicesQ);
+            
+            /*Get Search Social Media*/  
+            List socialQ = em.createNamedQuery("OrganizationHasSocialmedia.findByOrganizationOrgId").setParameter("organizationOrgId", orgId).getResultList();
+            session.setAttribute("searchSocials", socialQ);
+            
             response.sendRedirect("updatesurvey.jsp");
         }
         

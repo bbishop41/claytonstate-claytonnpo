@@ -5,6 +5,8 @@
 --%>
 
 <br/>
+
+
 <c:forEach var="searchedOrg" items="${searchOrg}">       
     <h4>${searchedOrg.orgName}</h4>
     <h4>Email: ${searchedOrg.email}</h4>
