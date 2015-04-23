@@ -119,6 +119,9 @@ public class ControllerServlet extends HttpServlet {
             int orgId = Integer.parseInt(request.getParameter("org"));
             Organization org = organizationFacade.find(orgId);
             session.setAttribute("pops", popFacade.findAll());
+            session.setAttribute("areas", areaFacade.findAll());
+            session.setAttribute("services", servicesFacade.findAll());
+            session.setAttribute("aidServices", aidservicesFacade.findAll());
             session.setAttribute("uorg", org);
                       
             /*Get Search Org*/
@@ -140,6 +143,15 @@ public class ControllerServlet extends HttpServlet {
             /*Get Search Social Media*/  
             List socialQ = em.createNamedQuery("OrganizationHasSocialmedia.findByOrganizationOrgId").setParameter("organizationOrgId", orgId).getResultList();
             session.setAttribute("searchSocials", socialQ);
+            
+            List fundingQ = em.createNamedQuery("Funding.findByOrganizationOrgId").setParameter("organizationOrgId", orgId).getResultList();
+            session.setAttribute("searchFunding", fundingQ);
+            
+            List challengesQ = em.createNamedQuery("Challenges.findByOrganizationOrgId").setParameter("organizationOrgId", orgId).getResultList();
+            session.setAttribute("searchChallenges", challengesQ);
+            
+            List aidServicesQ = em.createQuery("select distinct a from Aidservices a inner join a.organizationCollection o where o.orgId = :orgId").setParameter("orgId", orgId).getResultList();
+            session.setAttribute("searchServices", aidServicesQ);
             
             response.sendRedirect("updatesurvey.jsp");
         }
