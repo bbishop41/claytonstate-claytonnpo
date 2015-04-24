@@ -19,15 +19,18 @@
        out.println("");
     }
 %>
-    <form action="createAccount" method="post">
-            <p><div id="rLabel">Organization:</div> <input type="text" name="orgName" id="signup"/></p><br/>
-            <p><div id="rLabel">Username:</div> <input type="text" name="username" id="signup"/></p><br/>
-            <p><div id="rLabel">Password:</div>   <input type="password" name="pass" id="signup"/> </p><br/>
-            <p><div id="rLabel">Email:</div>      <input type="text" name="email" id="signup"/></p><br/><br/>
+    <form action="createAccount" id="createForm" method="post">
+        <fieldset>
+            <p><label for="orgName"><div id="rLabel">Organization:</div></label> <input type="text" name="orgName" id="orgName" /></p>
+            <p><label for="username"><div id="rLabel">Username:</div></label> <input type="text" name="username" id="username" /></p>
+            <p><label for="pass"><div id="rLabel">Password:</div></label>   <input type="password" name="pass" id="pass" /> </p>
+            <p><label for="confirm_pass"><div id="rLabel">Password:</div></label>   <input type="password" name="confirm_pass" id="confirm_pass" /> </p>
+            <p><label for="email"><div id="rLabel">Email:</div> </label> <input type="email" name="email" id="email" /></p><br/><br/>
             
-    <p><input type="submit" value="Submit" id="rSubmit"/> <input type="submit" value="Clear" id="rSubmit"/>
+        <p><input type="submit" value="Submit" id="rSubmit"/> <input type="submit" value="Clear" id="rSubmit"/></p>
+        </fieldset>
     </form>
-    
+ 
 <!-- END CONTENT -->
   
 <!-- Footer in WEB-INF/jspf/footer.jspf -->

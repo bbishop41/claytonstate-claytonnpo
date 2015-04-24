@@ -5,14 +5,8 @@
  */
 package controller;
 
-import entity.Aidservices;
-import entity.Area;
-import entity.Officials;
 import entity.Organization;
-import entity.OrganizationHasSocialmedia;
-import entity.Services;
 import java.io.IOException;
-import java.util.Collection;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.persistence.EntityManager;
@@ -26,6 +20,7 @@ import javax.servlet.http.HttpSession;
 import session.AidservicesFacade;
 import session.AreaFacade;
 import session.ChallengesFacade;
+import session.EventFacade;
 import session.OfficialsFacade;
 import session.OrganizationFacade;
 import session.PopulationFacade;
@@ -48,7 +43,8 @@ import session.SupportticketFacade;
                                                         "/test",
                                                         "/admin",
                                                         "/updatesurvey",
-                                                        "/getorgresults"})
+                                                        "/getorgresults",
+                                                        "/postevent"})
 public class ControllerServlet extends HttpServlet {
    @EJB
    private ProcessData trans;
@@ -70,6 +66,8 @@ public class ControllerServlet extends HttpServlet {
    OfficialsFacade officialsFacade;
    @EJB
    SocialmediaFacade socialMediaFacade;
+   @EJB
+   EventFacade eventFacade;
    
   @PersistenceContext
   public EntityManager em;
@@ -81,9 +79,11 @@ public class ControllerServlet extends HttpServlet {
         getServletContext().setAttribute("orgs", organizationFacade.findAll());
         getServletContext().setAttribute("area", areaFacade.findAll());
         getServletContext().setAttribute("services", servicesFacade.findAll());
-        getServletContext().setAttribute("aidServices", aidservicesFacade.findAll());
+        getServletContext().setAttribute("aidservices", aidservicesFacade.findAll());
         getServletContext().setAttribute("socialMedia", socialMediaFacade.findAll());
-        getServletContext().setAttribute("officials", officialsFacade.findAll());
+        getServletContext().setAttribute("official", officialsFacade.findAll());
+        getServletContext().setAttribute("population", popFacade.findAll());
+        getServletContext().setAttribute("event", eventFacade.findAll());
    }
    
     //GET
@@ -237,6 +237,30 @@ public class ControllerServlet extends HttpServlet {
             trans.addAccount(orgName, email, pass, username);
             getServletContext().setAttribute("orgs", organizationFacade.findAll());
             url = "WEB-INF/view" + urlPattern + ".jsp";
+        }
+         if (urlPattern.equals("/postevent")) {
+            try {
+                String eventname = (String) request.getParameter("eventname");
+                String email = (String) request.getParameter("email");
+                String location = (String) request.getParameter("location");
+                String description = (String) request.getParameter("description");
+            
+                //Gets the organization id
+                List orgID = em.createNamedQuery("Organization.findOrgID").setParameter("email", email).getResultList();
+                String idString = String.valueOf(orgID.get(0));
+                session.setAttribute("id", idString);
+                int thisOrgID = Integer.parseInt(idString);
+           
+                //String eventdate = (String) session.getAttribute("eventdate");
+            
+                trans.addEvent(eventname, location, description, thisOrgID);
+                getServletContext().setAttribute("event", eventFacade.findAll());
+                response.sendRedirect("postEvent.jsp");
+            } catch(Exception ex) {
+                String posteventfailed = "There was an error in your event submission";
+                session.setAttribute("posteventfailed", posteventfailed);
+                response.sendRedirect("postEvent.jsp");
+            }
         }
         //Update
 //        if (urlPattern.equals("/update")) {

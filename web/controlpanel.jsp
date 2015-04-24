@@ -11,7 +11,7 @@
 <div id="titleColor">
 <h1>Control panel</h1>
 </div>
-<p><a href="#" />Update</a> | <a href="survey.jsp?page=survey" >Survey</a> | <a href="#">Open Support Ticket</a></p>
+<p><a href="#" />Update</a> | <a href="survey.jsp?page=survey" >Survey</a> | <a href="postEvent.jsp" >Post Event</a> | <a href="#">Open Support Ticket</a></p>
 
 <!-- END CONTENT -->
         

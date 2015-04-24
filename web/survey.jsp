@@ -12,36 +12,22 @@
 <form action="submitsurvey" method="post">
      <input type="hidden" name="email" value="<%= email %>"> 
     <br>
-    <p> 1. How long has your nonprofit organization<br> 
+    <p> 1. How long has your nonprofit organization</p> 
            provided services to Clayton County residents? <input type="text" name="yearsActive" /></p>
-    <p> 2. To which of the population(s) does your organizations services? (Check all that apply)? <br/>
-            <input type="checkbox" name="population" value="1"> Youth / Teens<br> 
-            <input type="checkbox" name="population" value="2"> Seniors<br> 
-            <input type="checkbox" name="population" value="3"> Disabled Residents<br> 
-            <input type="checkbox" name="population" value="4"> Veterans<br> 
-            Other (Please Specify) <input type="text" name="popOther" />
-    </p>
-     <p>3. What types of services does your organization provide to the Clayton County community residents? (Check all that apply) <br/>
-            <input type="checkbox" name="services" value="1">High school dropout prevention<br> 
-            <input type="checkbox" name="services" value="2">Job training and preparation<br> 
-            <input type="checkbox" name="services" value="3">Housing and foreclosure prevention<br> 
-            <input type="checkbox" name="services" value="4">Drug and alcohol awareness<br> 
-            <input type="checkbox" name="services" value="5">Violence prevention, education, and training<br> 
-            <input type="checkbox" name="services" value="6">Health and wellness<br>
-            <input type="checkbox" name="services" value="7">Veteran and homeless training and education<br>
-            <input type="checkbox" name="services" value="8">Community development programs<br>
-            <input type="checkbox" name="services" value="9">Parenting education programs and workshops<br>
-            <input type="checkbox" name="services" value="10">Ex-offender and reentry training<br>
-            Other (Please Specify) <input type="text" name="servOther" />
-            
-    </p>
-    <p> 4. In what In what area(s) of Clayton County does your organization provide services?<br/>
-        <input type="checkbox" name="area" value="1">Jonesboro<br> 
-        <input type="checkbox" name="area" value="2">Morrow<br>
-        <input type="checkbox" name="area" value="3">Riverdale<br>
-        <input type="checkbox" name="area" value="4">Lovejoy<br>
-        <input type="checkbox" name="area" value="5">Lake City<br>
-    </p>
+     <p>2. To which of the population(s) does your organizations services? (Check all that apply)? <br/>
+        <c:forEach var="population" items="${population}" >
+            <p><input type="checkbox" name="population" value="${population.popId}"> ${population.popName}</p>
+        </c:forEach>
+    
+       <p>3. What types of services does your organization provide to the Clayton County community residents? (Check all that apply) </p>
+       <c:forEach var="services" items="${services}">
+           <p><input type="checkbox" name="services" value="${services.servID}">${services.serviceName}</p> 
+       </c:forEach>      
+           
+    <p> 4. In what In what area(s) of Clayton County does your organization provide services?</p>
+       <c:forEach var="area" items="${area}">
+           <p><input type="checkbox" name="area" value="${area.areaID}">${area.city}</p> 
+       </c:forEach>    
     <p>5. In a typical year, what percentage of your funding does your organization receive from each of the following sources? <br/>
             Federal: <input type="text" name="federal" /> <br/>
             State: <input type="text" name="state" /> <br/>
@@ -77,43 +63,29 @@
     <p>11. Did your nonprofit organization participate in the Georgia Gives Day?   <br/> 
         <input type="radio" name="gAns" value="yes">Yes<br>
         <input type="radio" name="gAns" value="no">No<br/>
-        If yes, please describe<input type="text" name="givesDescription" />
     </p>
     <p>12. As a nonprofit leader, what are your top three challenges? <br/>
         1. <input type="text" name="challengeOne" /> <br/>
         2. <input type="text" name="challengeTwo" /> <br/>
         3. <input type="text" name="challengeThree" /> 
     </p>
-    <p>13. Which of the following services do you feel would help strengthen your organization?  (Check all that apply) <br/>
-            <input type="checkbox" name="aidservices" value="1">Board Development<br> 
-            <input type="checkbox" name="aidservices" value="2">Strategic planning<br> 
-            <input type="checkbox" name="aidservices" value="3">Network and collaboration<br> 
-            <input type="checkbox" name="aidservices" value="4">Team building<br> 
-            <input type="checkbox" name="aidservices" value="5">Grant writing<br>
-            <input type="checkbox" name="aidservices" value="6">Identifying funding sources<br>
-            <input type="checkbox" name="aidservices" value="7">Fundraising<br>
-            <input type="checkbox" name="aidservices" value="8">Program development and design<br>
-            <input type="checkbox" name="aidservices" value="9">Research and data collection<br>
-            <input type="checkbox" name="aidservices" value="10">Taxes and accounting education<br>
-            <input type="checkbox" name="aidservices" value="11">Technology Training<br>
-            Other (Please Specify) <input type="text" name="strengthOther" />
-            
-    </p>
+    <p>13. Which of the following services do you feel would help strengthen your organization?  (Check all that apply) </p>
+             <c:forEach var="aidservices" items="${aidservices}">
+                     <p><input type="checkbox" name="aidservices" value="${aidservices.aidServicesID}">${aidservices.name}</p> 
+            </c:forEach>  
     
      <p> 14. Please list all of the State and County elected officials, that you know of, who support nonprofit funding.<br/>
-            <input type="checkbox" name="official" value="1">Frank TheTank<br>
-            <input type="checkbox" name="official" value="2">Sonna Gregory<br> 
-            <input type="checkbox" name="official" value="3">Gail Hambrick<br> 
-            <input type="checkbox" name="official" value="4">Nathan Deal<br> 
-            <input type="checkbox" name="official" value="5">Casey Cagle<br> 
+               <c:forEach var="official" items="${official}">
+                     <p><input type="checkbox" name="official" value="${official.officialID}">${official.firstName} ${official.lastName}</p> 
+            </c:forEach>  
     </p>
      <p>15. Are you interested in joining a nonprofit network that provides networking, education and training to nonprofits with less than five years of service to the community? <br/> 
         <input type="radio" name="netAns" value="yes">Yes<br>
-        <input type="radio" name="netAns" value="no">No (If no, skip to question 20) <br/>
+        <input type="radio" name="netAns" value="no">No <br/>
     </p>
     <p>16. Are you willing to pay a membership fee to be part of this nonprofit network? <br/> 
         <input type="radio" name="netFeeAns" value="yes">Yes<br>
-        <input type="radio" name="netFeeAns" value="no">No (If no, skip to question 18) <br/>
+        <input type="radio" name="netFeeAns" value="no">No<br/>
     </p>
      <p>17. To be a part of this nonprofit network I can pay: <br/> 
         <input type="radio" name="pay" value="$200 annually">$200 annually<br>
