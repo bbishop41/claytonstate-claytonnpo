@@ -7,6 +7,8 @@ package session;
 
 import entity.Challenges;
 import entity.ChallengesPK;
+import entity.Event;
+import entity.EventPK;
 import entity.Funding;
 import entity.FundingPK;
 import entity.Meetingtime;
@@ -147,5 +149,15 @@ public class ProcessData {
         meetTime.setDayTime(meetingTime);
 
         em.persist(meetTime);
+    }
+    public void addEvent(String eventname, String location, String description, int orgId) {
+        em.flush();
+        EventPK eventPK = new EventPK();
+        eventPK.setOrganizationOrgId(orgId);
+        Event event = new Event(eventPK);
+        event.setEventName(eventname);
+        event.setLocation(location);
+        event.setDescription(description);
+        em.persist(event);
     }
 }

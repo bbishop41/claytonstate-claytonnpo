@@ -21,6 +21,7 @@
             <url-pattern>/admin.jsp</url-pattern>
             <url-pattern>/search.jsp</url-pattern>
             <url-pattern>/contact.jsp</url-pattern>
+            <url-pattern>/postEvent.jsp</url-pattern>
             <include-prelude>/WEB-INF/jspf/header.jspf</include-prelude>
             <include-coda>/WEB-INF/jspf/footer.jspf</include-coda>
         </jsp-property-group>
