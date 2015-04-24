@@ -122,6 +122,7 @@ public class ControllerServlet extends HttpServlet {
             session.setAttribute("areas", areaFacade.findAll());
             session.setAttribute("services", servicesFacade.findAll());
             session.setAttribute("aidServices", aidservicesFacade.findAll());
+            session.setAttribute("officials", officialsFacade.findAll());
             session.setAttribute("uorg", org);
                       
             /*Get Search Org*/
@@ -151,7 +152,10 @@ public class ControllerServlet extends HttpServlet {
             session.setAttribute("searchChallenges", challengesQ);
             
             List aidServicesQ = em.createQuery("select distinct a from Aidservices a inner join a.organizationCollection o where o.orgId = :orgId").setParameter("orgId", orgId).getResultList();
-            session.setAttribute("searchServices", aidServicesQ);
+            session.setAttribute("searchAidServices", aidServicesQ);
+            
+            List officialsQ = em.createQuery("select distinct a from Officials a inner join a.organizationCollection o where o.orgId = :orgId").setParameter("orgId", orgId).getResultList();
+            session.setAttribute("searchOfficials", officialsQ);
             
             response.sendRedirect("updatesurvey.jsp");
         }

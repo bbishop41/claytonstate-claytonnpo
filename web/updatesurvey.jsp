@@ -3,6 +3,7 @@
     Created on : Apr 13, 2015, 2:21:50 AM
     Author     : BrentB
 --%>
+<%@page import="entity.Officials"%>
 <%@page import="entity.Aidservices"%>
 <%@page import="entity.Challenges"%>
 <%@page import="entity.Funding"%>
@@ -23,7 +24,9 @@ List<Area> areasQ = (List) session.getAttribute("searchAreas");
 List<Funding> fundingQ = (List) session.getAttribute("searchFunding");
 List<Challenges> challengesQ = (List) session.getAttribute("searchChallenges");
 List<Aidservices> aidServices = (List) session.getAttribute("aidServices");
-List<Aidservices> aidServicesQ = (List) session.getAttribute("aidServicesQ");
+List<Aidservices> aidServicesQ = (List) session.getAttribute("searchAidServices");
+List<Officials> officials = (List) session.getAttribute("officials");
+List<Officials> officialsQ = (List) session.getAttribute("searchOfficials");
 %>
 
 
@@ -78,12 +81,12 @@ List<Aidservices> aidServicesQ = (List) session.getAttribute("aidServicesQ");
             for(int j = 0; j < areasQ.size(); j++){
                 if(areas.get(i).getCity().equals(areasQ.get(j).getCity())){
                    isChecked = true;%>
-                   <input type="checkbox" name="services" value="<%=areasQ.get(j).getCity()%>" checked=""><%=areasQ.get(j).getCity()%><br>
+                   <input type="checkbox" name="area" value="<%=areasQ.get(j).getCity()%>" checked=""><%=areasQ.get(j).getCity()%><br>
           <%
                 }
             }
             if (!(isChecked)){%>
-                <input type="checkbox" name="services" value="<%=areas.get(i).getCity()%>"><%=areas.get(i).getCity()%><br>
+                <input type="checkbox" name="area" value="<%=areas.get(i).getCity()%>"><%=areas.get(i).getCity()%><br>
          <%   
             }
             isChecked = false;
@@ -186,19 +189,39 @@ List<Aidservices> aidServicesQ = (List) session.getAttribute("aidServicesQ");
             for(int j = 0; j < aidServicesQ.size(); j++){
                 if(aidServices.get(i).getName().equals(aidServicesQ.get(j).getName())){
                    isChecked = true;%>
-                   <input type="checkbox" name="services" value="<%=aidServicesQ.get(j).getName()%>" checked=""><%=aidServicesQ.get(j).getName()%><br>
+                   <input type="checkbox" name="aidservices" value="<%=aidServicesQ.get(j).getName()%>" checked=""><%=aidServicesQ.get(j).getName()%><br>
           <%
                 }
             }
             if (!(isChecked)){%>
-                <input type="checkbox" name="services" value="<%=aidServices.get(i).getName()%>"><%=aidServices.get(i).getName()%><br>
+                <input type="checkbox" name="aidservices" value="<%=aidServices.get(i).getName()%>"><%=aidServices.get(i).getName()%><br>
          <%   
             }
             isChecked = false;
         }           
-        %>
-            
-    </p>
+        %>          
+         </p>
+    
+        <p> 14. Please list all of the State and County elected officials, that you know of, who support nonprofit funding.<br/>
+              <%
+        isChecked = false;
+        for (int i = 0; i < officials.size(); i++){
+            for(int j = 0; j < officialsQ.size(); j++){
+                if(officials.get(i).getName().equals(officialsQ.get(j).getName())){
+                   isChecked = true;%>
+                   <input type="checkbox" name="official" value="<%=officialsQ.get(j).getName()%>" checked=""><%=officialsQ.get(j).getName()%><br>
+          <%
+                }
+            }
+            if (!(isChecked)){%>
+                <input type="checkbox" name="official" value="<%=officials.get(i).getName()%>"><%=officials.get(i).getName()%><br>
+         <%   
+            }
+            isChecked = false;
+        }           
+        %>          
+         </p> 
+         </p>
   <%--    
             <c:forEach var="pops" items="${pops}">
                 <c:forEach var="popQ" items="${searchPops}">
