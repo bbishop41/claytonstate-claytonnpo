@@ -11,6 +11,10 @@
 <div id="titleColor">
 <h1>Control panel</h1>
 </div>
+<% String email = (String) session.getAttribute("email");
+    if (email == null)
+        response.sendRedirect("create.jsp?page=create");
+%>
 <p><a href="#" />Update</a> | <a href="survey.jsp?page=survey" >Survey</a> | <a href="postEvent.jsp" >Post Event</a> | <a href="#">Open Support Ticket</a></p>
 
 <!-- END CONTENT -->

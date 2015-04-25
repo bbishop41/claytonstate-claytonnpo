@@ -16,7 +16,8 @@ $().ready(function() {
         },
         pass: {
             required: true,
-            minlength: 8
+            minlength: 8,
+            pwcheck: true
         },
         confirm_pass: {
             required: true,
@@ -39,7 +40,9 @@ $().ready(function() {
         },
         pass: {
             required: "<font color=\"red\">Please provide a password</font>",
-            minlength: "<font color=\"red\">Please enter at least 8 characters for your password</font>"
+            minlength: "<font color=\"red\">Please enter at least 8 characters for your password</font>",
+            pwcheck: "<font color=\"red\">Password must contain one number and one lowercase letter.<br />  \n\
+                      <div id=\"allowed\">Allowed characters: (A-Z a-z 0-9 @ * _ - . !)</div></font>"
         },
         confirm_pass: {
             required: "<font color=\"red\">Please provide a password</font>",
@@ -53,5 +56,10 @@ $().ready(function() {
     }
         
     });
+       $.validator.addMethod("pwcheck", function(value) {
+                return /^[A-Za-z0-9\d=!\-@._*]*$/.test(value) // consists of only these
+                && /[a-z]/.test(value) // has a lowercase letter
+                && /\d/.test(value); // has a digit
+        });
 });
 

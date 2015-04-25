@@ -1,3 +1,12 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Apr 24, 2015, 6:41:53 PM
+    Author     : Victor
+*/
 ol#toc {
     height: 1em;
     list-style: none;
@@ -17,7 +26,7 @@ ol#toc a {
     display: block;
     float: left;
     height: 2em;
-    padding-left: 30px;
+    padding-left: 15px;
     text-decoration: none;
 }
 
@@ -54,7 +63,7 @@ div.content {
     clear: left;
     padding: 3em;
     width: 750px;
-    margin: 0 200px 0 240px;
+    margin: 0 150px 0 230px;
     padding: 20px 10px 20px 40px;
     margin-right: 40px;
    //white-space: nowrap;
@@ -138,25 +147,4 @@ body {
     margin-left: 5px;
     float: left;
 }
-#allowed {
-    margin-left: 250px;
-    font-size: 13px;
-}
-#surveyError {
-    font-size: 13px;
-}
-#state {
-    margin-left: 50px;
-}
-#donations {
-    margin-left: 16px;
-}
-#federal {
-    margin-left: 39px;
-}
-#county {
-    margin-left: 41px;
-}
-#fund {
-    margin-left: 3px;
-}
+

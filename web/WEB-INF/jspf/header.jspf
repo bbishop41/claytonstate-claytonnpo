@@ -20,10 +20,19 @@
     <head>
         <title>Home</title>
     
+        <%Organization org = (Organization) session.getAttribute("org");
+         Admin adm = (Admin) session.getAttribute("admin"); %>
+            
+        <% if (adm == null){%>   
         <link rel="stylesheet" type="text/css" href="css/stylesheet.css"/>
+        <%} else {%>
+        <link rel="stylesheet" type="text/css" href="css/adminstylesheet.css"/>
+        <% } %>
         <script src="http://code.jquery.com/jquery-2.1.3.min.js"></script>
         <script src="javascript/jquery.validate.js"></script>
         <script src="javascript/createAccount.js"></script>
+        <script src="javascript/surveyform.js"></script>
+
         <script type="text/javascript">
 	  
           function submitForm() {	  
@@ -69,9 +78,8 @@
             <img src="assets/logo.png" />
             
             <!-- LOGIN FIELD -->
-            <%Organization org = (Organization) session.getAttribute("org");
-            Admin adm = (Admin) session.getAttribute("admin");
-            if (org == null && adm == null){%>
+        
+            <% if (org == null && adm == null){%>
                 <form action="controlpanel" method="post" id="loginForm">
                     <p>Email:   <input type="text" name="email" id="signin"/> </p>
                     <p>Password:   <input type="password" name="pass" id="signin" /> </p>
@@ -80,16 +88,20 @@
                 </form>
             <%}else if (adm == null){%>
                 <%String orgEmail = org.getEmail();%>
-                <p id="loginForm">Logged in as: <%=orgEmail%></p></br>
+                <div id="loginForm">
+                <p>Logged in as: <%=orgEmail%></p>
                 <form action="logout" method="post">
-                    <p><input type="submit" value="Logout"/>
-                </form>          
+                    <a href="controlpanel.jsp?email=<%=orgEmail%>" >Control Panel</a> <input type="submit" value="Logout"/> 
+                </form>    
+                </div>        
             <%}else{%>
                 <%String admEmail = adm.getEmail();%>
-                <p id="loginForm">Admin Logged in as: <%=admEmail%></p></br>
+                <div id="loginForm">
+                <p>Admin Logged in as:<br/> <%=admEmail%></p>
                 <form action="logout" method="post">
-                    <p><input type="submit" value="Logout"/>
+                     <input type="submit" value="Logout"/>
                 </form> 
+                </div>
             <%}%>
             <!-- END LOGIN -->
             
@@ -113,7 +125,7 @@
             </li>
             <%if (adm != null){%>
             <li class="<% if (currentPage.equals("admin")) out.println("current"); else out.println(""); %>">
-                <a href="admin"><span>Admin</span></a>
+                <a href="admin.jsp?page=admin"><span>Admin</span></a>
             </li>        
             <%}%>
         </ol>

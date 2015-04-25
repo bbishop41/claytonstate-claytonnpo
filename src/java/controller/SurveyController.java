@@ -105,8 +105,9 @@ public class SurveyController extends HttpServlet {
         String challengeThree = request.getParameter("challengeThree");
         
         /*Social media variable*/
-        String socialMedia[] = request.getParameterValues("smCheck");
-        String orgUrl;   
+        String socialMedia[]; 
+        String orgUrl;      
+           
         
         //Meeting time variables
         String meetingTime[] = request.getParameterValues("meeting");
@@ -199,10 +200,14 @@ public class SurveyController extends HttpServlet {
   /*TEXT*/  trans.addChallenges(challengeThree, thisOrgID);
   
   /*CHECKBOX AND TEXTBOX COMBINATION*/
+   if(request.getParameterValues("smCheck") != null) {
+           socialMedia = request.getParameterValues("smCheck");
+        
            for (String smID : socialMedia) {        //Question 21 on the html form
                 orgUrl = request.getParameter(smID);
                 trans.addSocialMedia(orgUrl, thisOrgID, Integer.parseInt(smID));
             }
+   }
            
   /*CHECKBOXES FOR MEETINGTIME */
             for (String meet : meetingTime) {       //Question 18 on the html form

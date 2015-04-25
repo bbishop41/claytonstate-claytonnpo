@@ -11,6 +11,10 @@
 <div id="titleColor">
 <h1>Control panel</h1>
 </div>
+<% String email = (String) session.getAttribute("email");
+    if (email == null)
+        response.sendRedirect("create.jsp?page=create");
+%>
 <% String posteventfailed = (String) session.getAttribute("posteventfailed"); 
     if(posteventfailed != null) {
         out.println("<font color=\"red\">" + posteventfailed + "</font>");
@@ -24,7 +28,12 @@
 
 <p><a href="#" />Update</a> | <a href="survey.jsp?page=survey" >Survey</a> | 
 <a href="postEvent.jsp" >Post Event</a> | <a href="#">Open Support Ticket</a></p>
-<% String email = (String) session.getAttribute("email"); %>
+<% 
+   String success = (String) session.getAttribute("success");
+   
+   if(success == null) {
+%>
+
 <form action="postevent" id="postEvent" method="post" >
     <input type="hidden" name="email" value="<%= email %>">
     <p>Event: <input type="text" name="eventname" required/></p>
@@ -35,6 +44,11 @@
     <input type="submit" value="Post Event" />
     
 </form>
+<% }  else { 
+        out.println("<font color=\"red\">" + success+ "</font>");
+        success = null;
+        session.setAttribute("success", success);
+   }%>
  <script>
         $("#postEvent").validate();
  </script>

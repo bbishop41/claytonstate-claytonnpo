@@ -225,7 +225,7 @@ public class ControllerServlet extends HttpServlet {
                     if(isAdmin){
                         getServletContext().setAttribute("orgs", organizationFacade.findAll());
                         getServletContext().setAttribute("tickets", ticketFacade.findAll());
-                        response.sendRedirect("admin.jsp");
+                        response.sendRedirect("admin.jsp?page=admin");
                     }else{
                         String createMessage = "We dont have you on file. Please create an account to sign in.";
                         session.setAttribute("createMessage", createMessage);
@@ -234,13 +234,19 @@ public class ControllerServlet extends HttpServlet {
             }
         } 
         if (urlPattern.equals("/createAccount")) {
-            String orgName = (String) request.getParameter("orgName");
-            String email = (String) request.getParameter("email");
-            String pass = (String) request.getParameter("pass");
-            String username = (String) request.getParameter("username");
-            trans.addAccount(orgName, email, pass, username);
-            getServletContext().setAttribute("orgs", organizationFacade.findAll());
-            url = "WEB-INF/view" + urlPattern + ".jsp";
+            try {
+                String orgName = (String) request.getParameter("orgName");
+                String email = (String) request.getParameter("email");
+                String pass = (String) request.getParameter("pass");
+                String username = (String) request.getParameter("username");
+                trans.addAccount(orgName, email, pass, username);
+                getServletContext().setAttribute("orgs", organizationFacade.findAll());
+                url = "WEB-INF/view" + urlPattern + ".jsp";
+            } catch(Exception ex) {
+                String createMessage = "There was an error in your account submission. Please try again";
+                session.setAttribute("createMessage", createMessage);
+                response.sendRedirect("create.jsp");
+            }
         }
          if (urlPattern.equals("/postevent")) {
             try {
@@ -259,6 +265,8 @@ public class ControllerServlet extends HttpServlet {
             
                 trans.addEvent(eventname, location, description, thisOrgID);
                 getServletContext().setAttribute("event", eventFacade.findAll());
+                String success = "Event successfully posted";
+                session.setAttribute("success", success);
                 response.sendRedirect("postEvent.jsp");
             } catch(Exception ex) {
                 String posteventfailed = "There was an error in your event submission";
