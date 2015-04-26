@@ -155,7 +155,7 @@ public class ControllerServlet extends HttpServlet {
             session.setAttribute("searchAidServices", aidServicesQ);
             
             List officialsQ = em.createQuery("select distinct a from Officials a inner join a.organizationCollection o where o.orgId = :orgId").setParameter("orgId", orgId).getResultList();
-            session.setAttribute("searchOfficials", officialsQ);
+            session.setAttribute("searchOfficials", officialsQ);                  
             
             response.sendRedirect("updatesurvey.jsp");
         }
