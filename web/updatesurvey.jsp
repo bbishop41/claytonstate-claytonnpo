@@ -14,8 +14,8 @@
 <%@page import="java.util.List"%>
 <%@page import="entity.Organization"%>
 <% 
-String email =  (String) session.getAttribute("email");
 Organization orgs = (Organization) session.getAttribute("uorg");
+String email = orgs.getEmail();
 List<Population> pops = (List) session.getAttribute("pops");
 List<Population> popsQ = (List) session.getAttribute("searchPops");
 List<Services> services = (List) session.getAttribute("services");
@@ -31,7 +31,7 @@ List<Officials> officialsQ = (List) session.getAttribute("searchOfficials");
 %>
 
 
-<form action="updatesurvey" method="post">
+<form action="processupdate" method="post">
     <h3><%= orgs.getOrgName()%></h3>
      <input type="hidden" name="email" value="<%= email %>"> 
     <br>
@@ -213,12 +213,12 @@ List<Officials> officialsQ = (List) session.getAttribute("searchOfficials");
             for(int j = 0; j < officialsQ.size(); j++){
                 if(officials.get(i).getOfficialID().equals(officialsQ.get(j).getOfficialID())){
                    isChecked = true;%>
-                   <input type="checkbox" name="services" value="<%=officialsQ.get(j).getOfficialID()%>" checked=""><%=officialsQ.get(j).getFirstName()%> <%=officialsQ.get(j).getLastName()%> <br>
+                   <input type="checkbox" name="official" value="<%=officialsQ.get(j).getOfficialID()%>" checked=""><%=officialsQ.get(j).getFirstName()%> <%=officialsQ.get(j).getLastName()%> <br>
           <%
                 }
             }
             if (!(isChecked)){%>
-                <input type="checkbox" name="services" value="<%=officials.get(i).getOfficialID()%>"><%=officials.get(i).getFirstName()%> <%=officials.get(i).getLastName()%><br>
+                <input type="checkbox" name="official" value="<%=officials.get(i).getOfficialID()%>"><%=officials.get(i).getFirstName()%> <%=officials.get(i).getLastName()%><br>
          <%   
             }
             isChecked = false;

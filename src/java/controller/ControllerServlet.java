@@ -124,7 +124,7 @@ public class ControllerServlet extends HttpServlet {
             session.setAttribute("aidServices", aidservicesFacade.findAll());
             session.setAttribute("officials", officialsFacade.findAll());
             session.setAttribute("uorg", org);
-                      
+            
             /*Get Search Org*/
             List orgQ = em.createNamedQuery("Organization.findByOrgId").setParameter("orgId", orgId).getResultList();
             session.setAttribute("searchOrg", orgQ);
