@@ -15,7 +15,7 @@
     if (email == null)
         response.sendRedirect("create.jsp?page=create");
 %>
-<p><a href="#" />Update</a> | <a href="survey.jsp?page=survey" >Survey</a> | <a href="postEvent.jsp" >Post Event</a> | <a href="#">Open Support Ticket</a></p>
+<p><a href="updatesurvey?email=<%=email%>" />Update</a> | <a href="survey.jsp?page=survey" >Survey</a> | <a href="postEvent.jsp" >Post Event</a> | <a href="#">Open Support Ticket</a></p>
 
 <!-- END CONTENT -->
         

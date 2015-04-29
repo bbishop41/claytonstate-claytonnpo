@@ -28,6 +28,7 @@ List<Aidservices> aidServices = (List) session.getAttribute("aidServices");
 List<Aidservices> aidServicesQ = (List) session.getAttribute("searchAidServices");
 List<Officials> officials = (List) session.getAttribute("officials");
 List<Officials> officialsQ = (List) session.getAttribute("searchOfficials");
+List<Meetingtime> meetingsQ = (List) session.getAttribute("searchMeetings");
 %>
 
 
@@ -263,29 +264,36 @@ List<Officials> officialsQ = (List) session.getAttribute("searchOfficials");
         
         
         <p> 18. What is the best time for meetings? (Check all that apply) <span id="invalid-meeting"></span>
-       <table>
-           <tr><td>Day</td><td>Morning</td><td>Afternoon</td><td>Evening</td></tr>
-           <tr><td>Monday</td><td><input type="checkbox" name="meeting" value="Monday Morning" id="meeting"></td>
-               <td><input type="checkbox" name="meeting" value="Monday Afternoon" id="meeting"></td>
-               <td><input type="checkbox" name="meeting" value="Monday Night" id="meeting"></td>
-           </tr>
-           <tr><td>Tuesday</td><td><input type="checkbox" name="meeting" value="Tuesday Morning" id="meeting"></td>
-               <td><input type="checkbox" name="meeting" value="Tuesday Afternoon" id="meeting"></td>
-               <td><input type="checkbox" name="meeting" value="Tuesday Night" id="meeting"></td>
-           </tr>
-           <tr><td>Wednesday</td><td><input type="checkbox" name="meeting" value="Wednesday Morning" id="meeting"></td>
-               <td><input type="checkbox" name="meeting" value="Wednesday Afternoon" id="meeting"></td>
-               <td><input type="checkbox" name="meeting" value="Wednesday Evening" id="meeting"></td>
-           </tr>
-           <tr><td>Thursday</td><td><input type="checkbox" name="meeting" value="Thursday Morning" id="meeting"></td>
-               <td><input type="checkbox" name="meeting" value="Thursday Afternoon" id="meeting"></td>
-               <td><input type="checkbox" name="meeting" value="Thursday Night" id="meeting"></td>
-           </tr>
-           <tr><td>Friday</td><td><input type="checkbox" name="meeting" value="Friday Morning" id="meeting"></td>
-               <td><input type="checkbox" name="meeting" value="Friday Afternoon" id="meeting"></td>
-               <td><input type="checkbox" name="meeting" value="Friday Night" id="meeting"></td>
-           </tr>
-       </table>
+            <table>
+                <tr><td>Day</td><td>Morning</td><td>Afternoon</td><td>Evening</td></tr>
+            <%
+                String [] days = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday"};
+                String [] times = {"Morning", "Afternoon", "Evening"};
+                
+                String dayTime = "";
+                
+                isChecked = false;
+                for (int i = 0; i < days.length; i++){%>
+                    <tr><td><%=days[i]%></td>
+                   <%for (int j = 0; j < times.length; j++){
+                        dayTime = days[i] + " " + times[j];
+                        for (int k = 0; k < meetingsQ.size(); k++){
+                            if (dayTime.equals(meetingsQ.get(k).getDayTime())){%>
+                                <td><input type="checkbox" name="meeting" value="<%=meetingsQ.get(k).getDayTime()%>" id="meeting" checked=""></td>
+                              <% isChecked = true;
+                            }
+                        }
+                        if (!(isChecked)){%>
+                            <td><input type="checkbox" name="meeting" value="<%=dayTime%>" id="meeting"></td>
+                     <% }
+                        isChecked = false;
+                    }%>
+                   </tr>
+              <%}%>
+            </table>
+
+            
+            
         <table>
          <tr>
              <td>

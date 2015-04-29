@@ -5,6 +5,7 @@
  */
 package controller;
 
+import entity.Meetingtime;
 import entity.Organization;
 import java.io.IOException;
 import java.util.List;
@@ -115,8 +116,15 @@ public class ControllerServlet extends HttpServlet {
             response.sendRedirect("admin.jsp");
         }
         
-        if(urlPattern.equals("/updatesurvey")) { 
-            int orgId = Integer.parseInt(request.getParameter("org"));
+        if(urlPattern.equals("/updatesurvey")) {
+            int orgId;
+            if (request.getParameter("org") != null){
+                orgId = Integer.parseInt(request.getParameter("org"));
+             }else{
+                String email = request.getParameter("email");
+                List<Organization> orgs = em.createNamedQuery("Organization.findByEmail").setParameter("email", email).getResultList();
+                orgId = orgs.get(0).getOrgId();
+            }
             Organization org = organizationFacade.find(orgId);
             session.setAttribute("pops", popFacade.findAll());
             session.setAttribute("areas", areaFacade.findAll());
@@ -156,6 +164,9 @@ public class ControllerServlet extends HttpServlet {
             
             List officialsQ = em.createQuery("select distinct a from Officials a inner join a.organizationCollection o where o.orgId = :orgId").setParameter("orgId", orgId).getResultList();
             session.setAttribute("searchOfficials", officialsQ);                  
+            
+            List meetingsQ = em.createNamedQuery("Meetingtime.findByOrganizationOrgId").setParameter("organizationOrgId", orgId).getResultList();
+            session.setAttribute("searchMeetings", meetingsQ);
             
             response.sendRedirect("updatesurvey.jsp");
         }
@@ -324,6 +335,6 @@ public class ControllerServlet extends HttpServlet {
         }catch (ArrayIndexOutOfBoundsException ex){
             return false;
         }
-    }
+    }    
 }
 

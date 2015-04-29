@@ -13,34 +13,30 @@
 <div class="leftContainer">
     <table style="width:80%">
         <tr>
-            <th>Org. ID</th>
-            <th>Org. Name</th>
-            <th>Org. Email</th>
+            <th style="text-align: left">Org. Name</th>
+            <th style="text-align: left">Org. Email</th>
         </tr>
     <c:forEach var="orgs" items="${orgs}">
         <tr>
-            <th>${orgs.orgId}</th>
-            <th>${orgs.orgName}</th>
-            <th>${orgs.email}</th>
-            <th><a href="updatesurvey?org=${orgs.orgId}">Update</a></th>
+            <td>${orgs.orgName}</td>
+            <td>${orgs.email}</td>
+            <td><a href="updatesurvey?org=${orgs.orgId}">Update</a></td>
         </tr>
     </c:forEach> 
     </table>
-</div>
+</div><br/><br/><br/>
 
 <div class="rightContainer">
     <table style="width:80%">
         <tr>
-            <th>Ticket ID</th>
-            <th>Submitted By:</th>
-            <th>Subject</th>
+            <th style="text-align: left">Submitted By:</th>
+            <th style="text-align: left">Subject</th>
         </tr>
     <c:forEach var="tickets" items="${tickets}">
         <tr>
-            <th><a href="updateticket?ticket=${tickets.supportticketPK.getTicketNum()}">${tickets.supportticketPK.getTicketNum()}</a></th>
-            <th>${tickets.organization.getOrgName()}</th>
-            <th>${tickets.subject}</th>
-            <th><a href="updateticket?ticket=${tickets.supportticketPK.getTicketNum()}">Update</a></th>
+            <td>${tickets.organization.getOrgName()}</td>
+            <td>${tickets.subject}</td>
+            <td><a href="updateticket?ticket=${tickets.supportticketPK.getTicketNum()}">Respond</a></td>
         </tr>
     </c:forEach> 
     </table>

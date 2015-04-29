@@ -7,6 +7,9 @@ package controller;
 
 import entity.Aidservices;
 import entity.Area;
+import entity.Challenges;
+import entity.Funding;
+import entity.Meetingtime;
 import entity.Officials;
 import entity.Organization;
 import entity.Population;
@@ -17,7 +20,9 @@ import java.util.Collection;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -27,6 +32,8 @@ import javax.servlet.http.HttpSession;
 import session.AidservicesFacade;
 import session.AreaFacade;
 import session.ChallengesFacade;
+import session.FundingFacade;
+import session.MeetingtimeFacade;
 import session.OfficialsFacade;
 import session.OrganizationFacade;
 import session.PopulationFacade;
@@ -55,6 +62,10 @@ public class UpdateSurveyController extends HttpServlet {
     AidservicesFacade aidservicesFacade;
     @EJB
     OfficialsFacade officialsFacade;
+    @EJB
+    MeetingtimeFacade meetingtimeFacade;
+    @EJB
+    FundingFacade fundingFacade;
 
     @PersistenceContext
     public EntityManager em;
@@ -166,6 +177,12 @@ public class UpdateSurveyController extends HttpServlet {
             }
   
             //Question 5
+            List<Funding> orgFunding = em.createNamedQuery("Funding.findByOrganizationOrgId").setParameter("organizationOrgId", thisOrgID).getResultList();
+            
+            for(int i = 0; i < orgFunding.size(); i++){
+                fundingFacade.remove(orgFunding.get(i));
+            }
+            
    /*TEXT*/ trans.addFundingPercentage(federal, state, county, foundations, corp, donations, fundraising, thisOrgID);
    
      /*CHECKBOXES  --  AIDSERVICES*/
@@ -199,8 +216,13 @@ public class UpdateSurveyController extends HttpServlet {
   /*RADIO*/ thisOrg.setCanParticipateRetreat(boolValue(retreat));           //Question 20 on the html survey form
   /*RADIO*/ thisOrg.setCanContact(boolValue(canContact));                   //Question 22 on the html survey form
   
-  
-            /*TOP THREE CHALLENGES*/
+
+            /*TOP THREE CHALLENGES REMOVE OLD / INSERT NEW*/         
+            List<Challenges> orgChallenges = em.createNamedQuery("Challenges.findByOrganizationOrgId").setParameter("organizationOrgId", thisOrgID).getResultList();        
+            for (int i = 0; i < orgChallenges.size(); i++){
+                challengesFacade.remove(orgChallenges.get(i));
+            }
+            
   /*TEXT*/  trans.addChallenges(challengeOne, thisOrgID);       //Question 12
   /*TEXT*/  trans.addChallenges(challengeTwo, thisOrgID);
   /*TEXT*/  trans.addChallenges(challengeThree, thisOrgID);
@@ -217,11 +239,15 @@ public class UpdateSurveyController extends HttpServlet {
             }
    }
            
-  /*CHECKBOXES FOR MEETINGTIME *//*
+             /*CHECKBOXES FOR MEETINGTIME */
+            List<Meetingtime> orgMeetings = em.createNamedQuery("Meetingtime.findByOrganizationOrgId").setParameter("organizationOrgId", thisOrgID).getResultList();
+            for (int i = 0; i < orgMeetings.size(); i++){
+                meetingtimeFacade.remove(orgMeetings.get(i));
+            }
+            
             for (String meet : meetingTime) {       //Question 18 on the html form
                 trans.addMeetingTime(meet, thisOrgID);
             }
-           */
             organizationFacade.edit(thisOrg);                  //Performs the final update on the organization         
             
             response.sendRedirect("submitsurvey.jsp");
