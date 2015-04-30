@@ -215,7 +215,7 @@ public class SurveyController extends HttpServlet {
             }
            
             organizationFacade.edit(thisOrg);                  //Performs the final update on the organization         
-            
+            session.setAttribute("active", String.valueOf(thisOrg.getYearsActive()));
             response.sendRedirect("submitsurvey.jsp");
         }
         

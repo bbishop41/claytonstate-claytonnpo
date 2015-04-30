@@ -136,6 +136,7 @@
         <div class="content">
             <div id="rightColumn">
                 <form action="search" method="get" id="searchDB">
+                   Filter by services provided:  <input type="checkbox" name="servicesProvided" value="set"/>
                     <input type="text" name="search" />
                     <input type="submit" value="Search"></input>
                 </form>

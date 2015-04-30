@@ -59,7 +59,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Organization.findByCanParticipateRetreat", query = "SELECT o FROM Organization o WHERE o.canParticipateRetreat = :canParticipateRetreat"),
     @NamedQuery(name = "Organization.findByCanContact", query = "SELECT o FROM Organization o WHERE o.canContact = :canContact"),
     @NamedQuery(name = "Organization.findOrgName", query = "SELECT o FROM Organization o WHERE o.pass = :pass AND o.email = :email"),
-    @NamedQuery(name = "Organization.findOrgID", query = "SELECT o.orgId FROM Organization o WHERE o.email = :email")})
+    @NamedQuery(name = "Organization.findOrgID", query = "SELECT o.orgId FROM Organization o WHERE o.email = :email"),
+    @NamedQuery(name = "Organization.findByRegex", query = "SELECT o FROM Organization o WHERE o.orgName REGEXP :regexp")})
 public class Organization implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id

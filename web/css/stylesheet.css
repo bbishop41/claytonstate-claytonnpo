@@ -160,3 +160,10 @@ body {
 #fund {
     margin-left: 3px;
 }
+
+.lightBlue {
+    background-color: lightblue;   
+}
+.white {
+    background-color: white;   
+}

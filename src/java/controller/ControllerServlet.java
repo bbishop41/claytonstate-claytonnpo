@@ -5,9 +5,10 @@
  */
 package controller;
 
-import entity.Meetingtime;
 import entity.Organization;
+import entity.Services;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.persistence.EntityManager;
@@ -99,14 +100,23 @@ public class ControllerServlet extends HttpServlet {
         //If search is made
         if(urlPattern.equals("/search")) {
             String search = request.getParameter("search");
-            /*session.setAttribute("search", search);
-            session.setAttribute("query", organizationFacade.findAll());*/
             try{
-                List results = em.createNamedQuery("Organization.findByOrgName").setParameter("orgName", search).getResultList();
-                session.setAttribute("searchResults", results);
-                response.sendRedirect("search.jsp");
+                if(request.getParameter("servicesProvided") == null) {
+                     List results = em.createNamedQuery("Organization.findByRegex").setParameter("regexp", search).getResultList();
+                     session.setAttribute("searchResults", results);
+                     response.sendRedirect("search.jsp");
+                } else {
+                     List servID = em.createNamedQuery("Services.findByServRegex").setParameter("regexp",search).getResultList();
+                     String stringServID = String.valueOf(servID.get(0));
+                     Collection<Organization> servProvided;
+                     Services orgServ = servicesFacade.find(Integer.parseInt(stringServID));
+                     servProvided = orgServ.getOrganizationCollection();
+                     session.setAttribute("searchResults", servProvided);
+                     response.sendRedirect("search.jsp");
+                }
+                
             }catch (Exception e){
-                e.printStackTrace();
+                  response.sendRedirect("search.jsp");
             }
         }
         
@@ -225,12 +235,22 @@ public class ControllerServlet extends HttpServlet {
             String pass = (String) request.getParameter("pass");
             String email = (String) request.getParameter("email");
             try {                
-                List org = em.createNamedQuery("Organization.findOrgName").setParameter("pass",
+                 List org = em.createNamedQuery("Organization.findOrgName").setParameter("pass",
                  pass).setParameter("email", email)
                 .getResultList();
                 session.setAttribute("org", org.get(0));
+                
+                 //Gets the organization id
+              List orgID = em.createNamedQuery("Organization.findOrgID").setParameter("email", email).getResultList();
+              String idString = String.valueOf(orgID.get(0));
+              session.setAttribute("id", idString);
+              
+                int thisOrgID = Integer.parseInt(idString);   //Converts the id to an integer datatype
+                Organization thisOrg = organizationFacade.find(thisOrgID);
+           
+                session.setAttribute("active", String.valueOf(thisOrg.getYearsActive()));
                 session.setAttribute("email", email);
-                response.sendRedirect("controlpanel.jsp?email=" + email);;
+                response.sendRedirect("controlpanel.jsp?email=" + email);
             } catch (ArrayIndexOutOfBoundsException ex) {
                     boolean isAdmin = validateAdmin(email, pass, session);
                     if(isAdmin){

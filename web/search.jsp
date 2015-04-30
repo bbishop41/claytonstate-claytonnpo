@@ -12,9 +12,11 @@
 <% String search = (String) session.getAttribute("search");%>
 <h3>Search Results</h3>
 <table>
-    <c:forEach var="results" items="${searchResults}">       
+    <c:forEach var="results" items="${searchResults}" varStatus="iter">  
+        <tr class="${((iter.index % 2) == 0) ? 'lightBlue' : 'white'}">
             <td><h4>${results.orgName}</h4></td>
             <td><a href="getorgresults?org=${results.orgId}">View Details</a></td>
+        </tr>
     </c:forEach>
 </table>
                 
